@@ -1,0 +1,17 @@
+random seed=644458549
+Normal Reference Rule:
+      0.16820415
+      0.15420688
+Block-wise Metropolis-Hastings Algorithm
+para: accept_rate=0.266667
+      average      batch_mean_sd  total_sd      SIF
+2       -62.78      0.082328      0.418031      0.39
+1        78.66      0.260111      0.723264      1.29
+0     0.822372      0.026520      0.085864      0.95
+1     0.115659      0.018286      0.043294      1.78
+2     0.205684      0.023880      0.072840      1.07
+log marginal likelihood=-62.8645
+Chib's (1995, JASA) marginal likelihood=-69.4371
+R2=0.5797
+Mean Squared Error=0.7673
+
