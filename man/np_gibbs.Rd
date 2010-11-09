@@ -4,7 +4,7 @@
 Estimating bandwidths of the regressor and the variance of the error density
 }
 \description{
-Implements the random-walk Metropolis algorithm to tuning up the optimal bandwidth of the regressors and variance of the error density for finite sample size
+Implements the random-walk Metropolis algorithm to tune the optimal bandwidth of the regressors and variance of the error density for finite sample size
 }
 \usage{
 np_gibbs(data_x, data_y, xh, inicost, prior_p = 2, sizep)
@@ -12,13 +12,13 @@ np_gibbs(data_x, data_y, xh, inicost, prior_p = 2, sizep)
 \arguments{
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
-  \item{xh}{Bandwidths of the regressors}
+  \item{xh}{Log bandwidths of the regressors}
   \item{inicost}{Initial cost value}
   \item{prior_p}{Tuning parameter in the prior}
   \item{sizep}{Tuning parameter in the random-walk Metropolis algorithm. A large value of sizep decreases the acceptance rate, whereas a small value of sizep increases the acceptance rate}
 }
 \details{
-1) The bandwidths of the regressors are initialized using the normal reference rule.
+1) The log bandwidths of the regressors are initialized using the normal reference rule.
 
 2) Conditioning on the variance parameter of the error density,
 we implement random-walk Metropolis algorithm to update the bandwidths in order to 
@@ -32,10 +32,10 @@ achieve the optimal cost value
 The smaller the sif value it, the better convergence of the parameters is.
 }
 \value{
-\item{xh}{Bandwidths of the regressors}
+\item{xh}{Log bandwidths of the regressors}
 \item{sigma}{Variance of the error density}
 \item{inicost}{Initial cost value}
-\item{accept_h}{Acceptance rate}
+\item{accept_h}{Acceptance rate of the random walk Metropolis algorithm}
 }
 \references{
 X. Zhang and R. D. Brooks and M. L. King (2009) A Bayesian approach to bandwidth selection for multivariate kernel regression with an application to state-price density estimation, 

@@ -12,7 +12,7 @@ bbecost(data_x, data_y, x, bandx_priors, prior_p = 2, prior_st = 0.1)
 \arguments{
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
-  \item{x}{Bandwidths of the regressors}
+  \item{x}{Log bandwidths of the regressors}
   \item{bandx_priors}{Prior information}
   \item{prior_p}{Tuning parameter of the prior following inverse gamma distribution}
   \item{prior_st}{Tuning parameter of the prior following inverse gamma distribution}

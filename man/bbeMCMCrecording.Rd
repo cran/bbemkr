@@ -13,12 +13,12 @@ bbeMCMCrecording(data_x, data_y, x, costpara, num_batch = 50,
 \arguments{
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
-  \item{x}{Retained bandwidths of the regressors, after the warmup or burnin period}
+  \item{x}{Retained log bandwidths of the regressors, after the warmup or burnin period}
   \item{costpara}{Retained cost value, after the warmup period}
   \item{num_batch}{Number of batch samples}
   \item{M}{Number of iterations}
   \item{step}{Recording value at a specific step, in order to achieve i.i.d. samples and and eliminate or reduce correlation}
-  \item{sizep}{Tuning parameter of the bandwidths.}
+  \item{sizep}{Tuning parameter of the bandwidths}
 }
 \details{
 Similar to the warmup period, it determines the optimal
@@ -57,7 +57,7 @@ the Royal Statistical Society}, \bold{56}, 3-48.
 Han Lin Shang
 }
 \seealso{
-\code{\link[bbemkr]{bbelogdensity}}
+\code{\link[bbemkr]{bbelogdensity}}, \code{\link[bbemkr]{bbelogpriors}}, \code{\link[bbemkr]{bbeloglikelihood}}
 }
 \examples{
 dummy = bbewarmup(nrr(data_x), bbecost(data_x, data_y, nrr(data_x)), warm = 2)

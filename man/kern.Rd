@@ -14,7 +14,7 @@ kern(data_x, x)
   \item{x}{Bandwidths of the regressors, after the MCMC iterations}
 }
 \value{
-The value of R square
+Value of R square
 }
 \author{
 Han Lin Shang

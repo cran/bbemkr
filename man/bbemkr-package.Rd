@@ -3,10 +3,10 @@
 \alias{bbemkr}
 \docType{package}
 \title{
-Bayesian bandwidth estimation for multivariate kernel regression
+Bayesian bandwidth estimation for multivariate kernel regression with Gaussian error
 }
 \description{
-Bayesian bandwidth estimation for Nadaraya-Watson type multivariate kernel regression
+Bayesian bandwidth estimation for Nadaraya-Watson type multivariate kernel regression with Gaussian error
 }
 \details{
 This package designs for selecting bandwidths used in the Nadaraya-Watson kernel regression estimator. 

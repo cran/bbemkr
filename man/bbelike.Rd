@@ -12,7 +12,7 @@ bbelike(data_x, data_y, x, sigma)
 \arguments{
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
-  \item{x}{Bandwidth of the regressors}
+  \item{x}{Log bandwidth of the regressors}
   \item{sigma}{Variance of the error density}
 }
 \value{
