@@ -4,16 +4,17 @@
 Calculate the log prior used in the log marginal density of Chib (1995).
 }
 \description{
-Calculate the log prior using the estimated bandwidths of the regressors and variance of the error density obtained from the MCMC output
+Calculate the log prior using the estimated averaged bandwidths of the regressors and the estimated 
+averaged variance of the error density, obtained from the MCMC iterations
 }
 \usage{
 bbelogpriors(x, sigma, prior_p = 2, prior_st = 0.1)
 }
 \arguments{
-  \item{x}{Estimated bandwidths of the regressors, after the MCMC iterations}
-  \item{sigma}{Estimated variance of the error density, after the MCMC iterations}
-  \item{prior_p}{Tuning parameter in the inverse-gamma prior}
-  \item{prior_st}{Tuning parameter in the inverse-gamma prior}
+  \item{x}{Estimated averaged bandwidths of the regressors, obtained after the MCMC iterations}
+  \item{sigma}{Estimated averaged variance of the error density, obtained after the MCMC iterations}
+  \item{prior_p}{A tuning parameter of the prior of error variance, following inverse gamma distribution}
+  \item{prior_st}{Another tuning parameter of the prior of error variance, following inverse gamma distribution}
 }
 \details{
 According to Chib (1995), the log marginal density = loglikelihood + logprior - logdensity
@@ -31,6 +32,6 @@ the Royal Statistical Society}, \bold{56}, 3-48.
 Han Lin Shang
 }
 \seealso{
-\code{\link[bbemkr]{bbelogdensity}},\code{\link[bbemkr]{bbeloglikelihood}},\code{\link[bbemkr]{bbeMCMCrecording}}
+\code{\link[bbemkr]{bbelogdensity}}, \code{\link[bbemkr]{bbeloglikelihood}}, \code{\link[bbemkr]{bbeMCMCrecording}}
 }
 \keyword{methods}

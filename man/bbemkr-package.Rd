@@ -3,15 +3,16 @@
 \alias{bbemkr}
 \docType{package}
 \title{
-Bayesian bandwidth estimation for multivariate kernel regression with Gaussian error
+Bayesian bandwidth estimation for multivariate kernel regression with Gaussian error assumption
 }
 \description{
-Bayesian bandwidth estimation for Nadaraya-Watson type multivariate kernel regression with Gaussian error
+Bayesian bandwidth estimation for Nadaraya-Watson type multivariate kernel regression with the Gaussian
+assumption of the error density
 }
 \details{
-This package designs for selecting bandwidths used in the Nadaraya-Watson kernel regression estimator. 
-Assuming the i.i.d residuals that are uncorrelated to the regressors and follow normal distribution, 
-the bandwidths are selected using Markov chain Monte Carlo (MCMC) method, in particular the random-walk Metropolis algorithm. 
+This package designs for estimating bandwidths used in the Nadaraya-Watson kernel regression estimator.
+Assuming i.i.d Gaussian error density that are uncorrelated to the regressors, the bandwidths are estimated
+using Markov chain Monte Carlo (MCMC) method, in particular by the random-walk Metropolis algorithm.
 }
 \author{
 Han Lin Shang and Xibin Zhang

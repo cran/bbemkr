@@ -4,14 +4,15 @@
 Normal reference rule
 }
 \description{
-Rule of thumb of estimating bandwidths
+Rule of thumb for estimating bandwidths.
 }
 \usage{
 nrr(data_x, logband = TRUE)
 }
 \arguments{
   \item{data_x}{Regressors}
-  \item{logband}{Log bandwidths or bandwidths}
+  \item{logband}{When \code{logband=TRUE}, log bandwidths are given. When \code{logband=FALSE},
+				 bandwidths are given.}
 }
 \value{
 Bandwidths.
@@ -27,7 +28,6 @@ A. W. Bowman and A. Azzalini (1997) Applied smoothing techniques for data analys
 \author{
 Han Lin Shang
 }
-
 \examples{
 nrr(data_x)
 }

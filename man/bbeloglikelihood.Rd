@@ -4,22 +4,24 @@
 Calculate the log likelihood used in the Chib's (1995) log marginal density
 }
 \description{
-Calculates the log likelihood using the estimated bandwidths of the regressors and variance of the error density
-}
+Calculates the log likelihood using the estimated averaged bandwidths of the regressors and estimated 
+averaged variance of the error density}
 \usage{
-bbeloglikelihood(data_x, data_y, x, sigma)
+bbeloglikelihood(data_x, data_y, x, sigma, kerntype = c("Gaussian", 
+    "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"))
 }
 \arguments{
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
-  \item{x}{Estimated bandwidths of the regressors, after MCMC iterations}
-  \item{sigma}{Estimated variance of the error density, after MCMC iterations}
+  \item{x}{Estimated averaged bandwidths of the regressors, obtained after the MCMC iterations}
+  \item{sigma}{Estimated averaged variance of the error density, obtained after the MCMC iterations}
+  \item{kerntype}{Type of the kernel function. By default, Gaussian kernel is used}
 }
 \details{
 According to Chib (1995), the log marginal density = loglikelihood + logprior - logdensity
 }
 \value{
-The value of log likelihood
+The value of log likelihood, with parameters estimated from the MCMC iterations
 }
 \references{
 S. Chib (1995) Marginal likelihood from the Gibbs output, \emph{Journal of the American Statistical Association}, \bold{90}, 432, 1313-1321.

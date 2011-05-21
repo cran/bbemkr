@@ -13,4 +13,3 @@ function (data_x, logband = TRUE)
     }
     ifelse(logband == TRUE, return(log(h)), return(h))
 }
-

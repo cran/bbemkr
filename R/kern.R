@@ -1,9 +1,13 @@
 kern <-
-function (data_x, x) 
+function (data_x, x, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight",
+                 "Triangular", "Uniform")) 
 {
+    # Gaussian kernel has infinite support
+    # Other types of kernel has [-1, 1] finite support
+
+    kerntype = match.arg(kerntype)
     data_num = dim(data_x)[1]
     dim = dim(data_x)[2]
-    hprod = prod(x)
     cont = exp(-0.5 * dim * log(2 * pi))
     suma = sumb = 0
     for (i in 1:data_num) {
@@ -16,12 +20,7 @@ function (data_x, x)
     for (i in 1:data_num) {
         suma = sumb = 0
         for (j in 1:data_num) {
-            temp = 0
-            for (k in 1:dim) {
-                xa = (data_x[i, k] - data_x[j, k])/x[k]
-                temp = temp + xa * xa
-            }
-            weight = cont * exp(-0.5 * temp)/hprod
+            weight = prod(ker(as.numeric((data_x[i,]-data_x[j,])/x), kerntype = kerntype)/x)
             suma = suma + weight * data_y[j]
             sumb = sumb + weight
         }
