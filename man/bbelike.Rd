@@ -7,8 +7,7 @@ Log likelihood constructed via Gaussian error assumption
 Calculate the log likelihood, using the leave-one-out samples.
 }
 \usage{
-bbelike(data_x, data_y, x, sigma, kerntype = c("Gaussian", "Epanechnikov", 
-        "Quartic", "Triweight", "Triangular", "Uniform"))
+bbelike(data_x, data_y, x, sigma, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"))
 }
 \arguments{
   \item{data_x}{Regressors}

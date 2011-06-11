@@ -1,0 +1,17 @@
+export(
+bbecost,
+bbecost2,
+bbelike,
+bbelogdensity,
+bbeloglikelihood,
+bbelogpriors,
+bbeMCMCrecording,
+bbewarmup,
+GasserMullerkernel,
+ker,
+kern,
+NadarayaWatsonkernel,
+np_gibbs,
+nrr,
+PriestleyChaokernel
+)

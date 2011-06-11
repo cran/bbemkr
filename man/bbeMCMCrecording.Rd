@@ -7,10 +7,7 @@ MCMC iterations
 Estimated averaged bandwidths of the regressors and averaged variance parameter of the error density
 }
 \usage{
-bbeMCMCrecording(data_x, data_y, x, costpara, kerntype = c("Gaussian", 
-                 "Epanechnikov", "Quartic", "Triweight", "Triangular", 
-                 "Uniform"), num_batch = 50, M = 10000, step = 20, 
-                 sizep = 1.2)
+bbeMCMCrecording(data_x, data_y, x, costpara, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"), num_batch = 50, M = 10000, step = 20, sizep = 1.2)
 }
 \arguments{
   \item{data_x}{Regressors}

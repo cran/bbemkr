@@ -8,9 +8,7 @@ By minimizing the cost value, the function estimates the bandwidths of the regre
 parameter of the error density for the warmup or burn-in period
 }
 \usage{
-bbewarmup(x, costpara, kerntype = c("Gaussian", "Epanechnikov", 
-          "Quartic", "Triweight", "Triangular", "Uniform"), 
-          warm = 4, sizep = 2)
+bbewarmup(x, costpara, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"), warm = 4, sizep = 2)
 }
 \arguments{
   \item{x}{Log bandwidths of the regressors}

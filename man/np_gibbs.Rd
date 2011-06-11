@@ -8,9 +8,7 @@ Implements the random-walk Metropolis algorithm to estimate the bandwidths of th
 variance of the error density for finite samples
 }
 \usage{
-np_gibbs(data_x, data_y, xh, inicost, kerntype = c("Gaussian",
-         "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"), 
-         prior_p = 2, sizep, ...)
+np_gibbs(data_x, data_y, xh, inicost, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"), prior_p = 2, sizep, ...)
 }
 \arguments{
   \item{data_x}{Regressors}

@@ -7,8 +7,7 @@ Calculate the R square value as a measure of goodness of fit
 To determine the goodness of fit, we calculate the R square value for leave-one-out regressors.
 }
 \usage{
-kern(data_x, x, kerntype = c("Gaussian", "Epanechnikov", "Quartic", 
-     "Triweight", "Triangular", "Uniform"))
+kern(data_x, x, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"))
 }
 \arguments{
   \item{data_x}{Regressors}

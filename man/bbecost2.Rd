@@ -7,9 +7,7 @@ Negative of log posterior associated with the error variance
 Calculates the negative of log posterior, using the leave-one-out samples.
 }
 \usage{
-bbecost2(data_x, data_y, x, kerntype = c("Gaussian", "Epanechnikov", 
-         "Quartic", "Triweight", "Triangular", "Uniform"), 
-         prior_st = 0.1)
+bbecost2(data_x, data_y, x, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"), prior_st = 0.1)
 }
 \arguments{
   \item{data_x}{Regressors}
