@@ -2,16 +2,14 @@
 \alias{data_x}
 \docType{data}
 \title{
-Simulated two-dimensional regressors
+Simulated three-dimensional regressors
 }
 \description{
-A toy example is simulated from the uniform distribution by using \code{runif(1,0,1)}.
+Three-dimensional regressors are simulated from the uniform distribution by using \code{runif(1,0,1)}.
 }
-\usage{
-data(data_x)
-}
+\usage{data(data_x)}
 \format{
-  A data frame with 50 observations and 2 \code{x}-variables.
+ A data matrix with 100 observations and 3 \code{x}-variables.
 }
 \examples{
 nrr(data_x)

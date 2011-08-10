@@ -11,7 +11,7 @@ assumption of the error density
 }
 \details{
 This package designs for estimating bandwidths used in the Nadaraya-Watson kernel regression estimator.
-Assuming i.i.d Gaussian error density that are uncorrelated to the regressors, the bandwidths are estimated
+Assuming iid Gaussian error density that are uncorrelated to the regressors, the bandwidths are estimated
 using Markov chain Monte Carlo (MCMC) method, in particular by the random-walk Metropolis algorithm.
 }
 \author{
@@ -28,5 +28,5 @@ X. Zhang and M. L. King and R. J. Hyndman (2006) A Bayesian approach to bandwidt
 }
 \keyword{package}
 \seealso{
-\code{\link[bbemkr]{np_gibbs}}
+\code{\link[bbemkr]{np_gibbs}}, \code{\link[bbemkr]{mcmcrecord}}, \code{\link[bbemkr]{warmup}}
 }

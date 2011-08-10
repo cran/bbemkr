@@ -1,26 +1,23 @@
 \name{np_gibbs}
 \alias{np_gibbs}
 \title{
-Estimating bandwidths of the regressors and the variance of error density
+Estimating bandwidths of the regressors 
 }
 \description{
-Implements the random-walk Metropolis algorithm to estimate the bandwidths of the regressors and the
-variance of the error density for finite samples
+Implements the random-walk Metropolis algorithm to estimate the bandwidths of the regressors
 }
 \usage{
-np_gibbs(data_x, data_y, xh, inicost, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"), prior_p = 2, sizep, ...)
+np_gibbs(xh, inicost, k, mutsizp, prob, data_x, data_y, prior_p = 2)
 }
 \arguments{
+  \item{xh}{Log of square bandwidths}
+  \item{inicost}{Cost value}
+  \item{k}{Iteration number}
+  \item{mutsizp}{Step size of random-walk Metropolis algorithm}
+  \item{prob}{Optimal covergence rate}
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
-  \item{xh}{Log bandwidths of the regressors}
-  \item{inicost}{Initial cost value}
-  \item{kerntype}{Type of kernel function. By default, Gaussian kernel is used}
-  \item{prior_p}{A tuning parameter in the prior of the error density}
-  \item{sizep}{A tuning parameter in the random-walk Metropolis algorithm. A large value of \code{sizep}
-			   decreases the acceptance rate, whereas a small value of \code{sizep} increases the 
-			   acceptance rate}
-  \item{\dots}{Other arguments}
+  \item{prior_p}{Hyperparameter used in inverse-gamma prior}
 }
 \details{
 1) The log bandwidths of the regressors are initialized using the normal reference rule of Silverman (1986).
@@ -36,10 +33,11 @@ np_gibbs(data_x, data_y, xh, inicost, kerntype = c("Gaussian", "Epanechnikov", "
    The smaller the sif value is, the better convergence of the parameters is.
 }
 \value{
-  \item{xh}{Log bandwidths of the regressors}
-  \item{sigma}{Variance of the error density}
-  \item{inicost}{Initial cost value}
-  \item{accept_h}{Acceptance rate of the random-walk Metropolis algorithm}
+  \item{x}{}
+  \item{sigma2}{Estimated variance of the normal error density}
+  \item{cost}{Cost value}
+  \item{accept_h}{Accept or reject. \code{accept_h=1} indicates acceptance, while \code{accept_h=0} indicates rejection.}
+  \item{mutsizp}{Step size of random-walk Metropolis}
 }
 \references{
 X. Zhang and R. D. Brooks and M. L. King (2009) A Bayesian approach to bandwidth selection for multivariate kernel regression with an application to state-price density estimation, 
@@ -48,12 +46,7 @@ X. Zhang and R. D. Brooks and M. L. King (2009) A Bayesian approach to bandwidth
 \author{
 Han Lin Shang
 }
-
 \seealso{
-\code{\link[bbemkr]{bbeMCMCrecording}}, \code{\link[bbemkr]{bbelogdensity}}
-}
-\examples{
-inicost = bbecost(data_x, data_y, nrr(data_x))
-np_gibbs(data_x, data_y, nrr(data_x), inicost, prior_p = 2, sizep = 1.2)
+\code{\link[bbemkr]{mcmcrecord}}, \code{\link[bbemkr]{logdensity}}, \code{\link[bbemkr]{loglikelihood}}, \code{\link[bbemkr]{logpriors}}
 }
 \keyword{methods}

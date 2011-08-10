@@ -7,7 +7,8 @@ Type of kernel function
 For data that have infinite support, Gaussian kernel is suggested. For data that have [-1, 1] support, other types of kernel can be used.
 }
 \usage{
-ker(u, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"))
+ker(u, kerntype = c("Gaussian", "Epanechnikov", "Quartic", 
+                    "Triweight", "Triangular", "Uniform"))
 }
 \arguments{
   \item{u}{A numeric object}

@@ -1,23 +1,21 @@
-\name{bbelogdensity}
-\alias{bbelogdensity}
+\name{logdensity}
+\alias{logdensity}
 \title{
-Calculate an estimate of log posterior ordinate used in the log marginal density of Chib(1995).
+Calculate an estimate of log posterior ordinate used in the log marginal density of Chib (1995).
 }
 \description{
-The calculation of the log posterior ordinate estimate does not suffer from any instability problem,
-because it is a density value that is averaged rather than its inverse.
+Log marginal likelihood = Log likelihood + Log prior - Log density
 }
 \usage{
-bbelogdensity(x, sigma, data_post)
+logdensity(tau2, cpost)
 }
 \arguments{
-  \item{x}{Estimated averaged bandwidths of the regressors}
-  \item{sigma}{Estimated averaged variance of the error density}
-  \item{data_post}{Gibbs output obtained from the MCMC iterations}
+  \item{tau2}{Square of re-parameterized bandwidths and square of normal error variance}
+  \item{cpost}{Simulation output of \code{tau2} obtained from the MCMC iterations}
 }
 \details{
 It should be noted that the posterior mode or maximum likelihood estimate can be computed from the 
-Gibbs output at least approximately, if it is easy to evaluate the log-likelihood function for each draw
+simulation output at least approximately, if it is easy to evaluate the log-likelihood function for each draw
 in the simulation. Alternatively, one can make use of the posterior mean provided that there is no
 concern that it is a low density point.
 }
@@ -34,7 +32,7 @@ the Royal Statistical Society}, \bold{56}, 3-48.
 Han Lin Shang
 }
 \seealso{
-\code{\link[bbemkr]{bbelogpriors}}, \code{\link[bbemkr]{bbeloglikelihood}}, \code{\link[bbemkr]{bbeMCMCrecording}}
+\code{\link[bbemkr]{logpriors}}, \code{\link[bbemkr]{loglikelihood}}, \code{\link[bbemkr]{mcmcrecord}}
 }
 \keyword{methods}
 

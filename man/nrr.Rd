@@ -1,10 +1,10 @@
 \name{nrr}
 \alias{nrr}
 \title{
-Normal reference rule
+Normal reference rule for estimating bandwidths
 }
 \description{
-Rule of thumb for estimating bandwidths.
+The simplest method for estimating bandwidths, based on normal density assumption.
 }
 \usage{
 nrr(data_x, logband = TRUE)
@@ -29,7 +29,7 @@ A. W. Bowman and A. Azzalini (1997) Applied smoothing techniques for data analys
 Han Lin Shang
 }
 \examples{
-nrr(data_x)
+nrr(data_x, logband = FALSE)
 }
 \keyword{methods}
 

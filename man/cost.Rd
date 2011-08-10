@@ -1,26 +1,24 @@
-\name{bbecost}
-\alias{bbecost}
+\name{cost}
+\alias{cost}
 \title{
 Negative of log posterior associated with the bandwidths
 }
 \description{
-Calculates the negative of log posterior, using the leave-one-out samples.
+Calculates the negative of log posterior, using the leave-one-out cross validated samples.
 }
 \usage{
-bbecost(data_x, data_y, x, kerntype = c("Gaussian", "Epanechnikov", "Quartic", "Triweight", "Triangular", "Uniform"), bandx_priors, prior_p = 2, prior_st = 0.1)
+cost(x, data_x, data_y, prior_p = 2, prior_st = 1)
 }
 \arguments{
+  \item{x}{Log of square bandwidths}
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
-  \item{x}{Log bandwidths of the regressors}
-  \item{kerntype}{Type of kernel function. By default, Gaussian kernel is used}
-  \item{bandx_priors}{Prior information of the bandwidths}
   \item{prior_p}{A tuning parameter of the prior of error variance, following inverse gamma distribution}
   \item{prior_st}{Another tuning parameter of the prior of error variance, following inverse gamma distribution}
 }
 \details{
-The default bandx_priors is the inverse gamma distribution. However, Cauchy prior can also be used which 
-achieve similar results.
+Bandwidth can be re-parameterized by a constant times optimal convergence rate, that is, \eqn{h=c*n^{rate}}. The prior of \eqn{c^2} is 
+assumed to follow an inverse-gamma prior with hyperparameters \code{prior_p = 2} and \code{prior_st = 1}.
 }
 \value{
 Value of the cost function
@@ -32,6 +30,11 @@ X. Zhang and R.D. Brooks and M.L. King (2009), A Bayesian approach to bandwidth 
 Han Lin Shang
 }
 \seealso{
-\code{\link[bbemkr]{np_gibbs}}, \code{\link[bbemkr]{bbecost2}}
+\code{\link[bbemkr]{np_gibbs}}, \code{\link[bbemkr]{cost2}}
+}
+\examples{
+x = log(nrr(data_x, FALSE)^2)
+inicost = cost(x, data_x, data_y)
 }
 \keyword{methods}
+

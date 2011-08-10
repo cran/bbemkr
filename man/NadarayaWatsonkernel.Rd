@@ -31,10 +31,6 @@ G. S. Watson (1964) Smooth regression analysis, Sankhya: The Indian Journal of S
 \author{
 Han Lin Shang
 }
-
-\seealso{
-\code{\link[bbemkr]{GasserMullerkernel}}, \code{\link[bbemkr]{PriestleyChaokernel}}
-}
 \examples{
 x = rnorm(100)
 y = rnorm(100)

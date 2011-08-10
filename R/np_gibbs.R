@@ -1,58 +1,59 @@
 np_gibbs <-
-function (data_x, data_y, xh, inicost, kerntype = c("Gaussian", "Epanechnikov", "Quartic",
-          "Triweight", "Triangular", "Uniform"), prior_p = 2, sizep, ...) 
+function(xh, inicost, k, mutsizp, prob, data_x, data_y, prior_p=2)
 {
-    # Gaussian kernel has infinite support
-    # Other types of kernel has [-1, 1] finite support
+dm = dim(data_x)[2]
+data_num = dim(data_x)[1]
+dv = rn = vector(,dm)
+alpharm = -qnorm(prob/2)
+fx = inicost
+sum = 0
+for(i in 1:dm)
+{
+rn[i] = rnorm(1)
+sum = sum + rn[i]^2
+}
+for(i in 1:dm)
+{
+dv[i] = rn[i]/sqrt(sum)*rnorm(1)*mutsizp
+xh[i] = xh[i] + dv[i]
+}
+fy = cost(xh, data_x, data_y)
+r = fx - fy
+if(r>0)
+{
+accept = 1
+}
+else
+{
+if(runif(1)<exp(r))
+{
+accept = 1
+}
+else
+{
+accept = 0
+}
+}
+c = mutsizp * ((1-1/dm)*sqrt(2*pi)*exp(alpharm^2/2))/(2*alpharm)+1/(dm*prob*(1-prob))
+if(accept == 1)
+{
+accept_h = 1
+inicost = fy
+mutsizp = mutsizp + c*(1-prob)/k
+}
+else
+{
+accept_h = 0
+for(i in 1:dm)
+{
+xh[i] = xh[i] - dv[i]
+}
+mutsizp = mutsizp - c*prob/k
+}
 
-    kerntype = match.arg(kerntype)
-    data_num = dim(data_x)[1]
-    dim = dim(data_x)[2]
-    dv = rn = vector(, dim)
-    fx = inicost
-    sum = 0
-    for (i in 1:dim) {
-        rn[i] = rnorm(1)
-        sum = sum + rn[i] * rn[i]
-    }
-    for (i in 1:dim) {
-        dv[i] = rn[i]/sqrt(sum) * rnorm(1) * sizep
-        xh[i] = xh[i] + dv[i]
-    }
-    fy = bbecost(data_x, data_y, xh, kerntype = kerntype, ...)
-    if(class(fy)!="numeric")
-    {
-       stop("Cost value is not numeric.")
-    }
-    r = -1 * (fy - fx)
-    if (r > 0) {
-        accept = 1
-    }
-    else {
-        un = 0
-        while (un <= 0) {
-            un = runif(1)
-        }
-        if (un < exp(r)) {
-            accept = 1
-        }
-        else {
-            accept = 0
-        }
-    }
-    accept_h = 0
-    if (accept == 1) {
-        accept_h = accept_h + 1
-        inicost = fy
-        xh = xh
-    }
-    else {
-        xh = xh - dv
-        inicost = fx
-    }
-    temp = bbecost2(data_x, data_y, xh, kerntype = kerntype, ...)
-    un = rgamma(1, shape = 0.5 * (data_num + prior_p), rate = temp)
-    sigma = 1/un
-    return(list(xh = xh, sigma = sigma, inicost = inicost, accept_h = accept_h))
+tmp = cost2(xh, data_x, data_y)
+un = rgamma(1, 0.5*(data_num+prior_p), tmp)
+sigma2 = 1/un
+return(list(x = xh, sigma2 = sigma2, cost = inicost, accept_h = accept_h, mutsizp = mutsizp))
 }
 
