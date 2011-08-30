@@ -7,7 +7,7 @@ Estimating bandwidths of the regressors
 Implements the random-walk Metropolis algorithm to estimate the bandwidths of the regressors
 }
 \usage{
-np_gibbs(xh, inicost, k, mutsizp, prob, data_x, data_y, prior_p = 2)
+np_gibbs(xh, inicost, k, mutsizp, prob, data_x, data_y, prior_p, prior_st)
 }
 \arguments{
   \item{xh}{Log of square bandwidths}
@@ -17,7 +17,8 @@ np_gibbs(xh, inicost, k, mutsizp, prob, data_x, data_y, prior_p = 2)
   \item{prob}{Optimal covergence rate}
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
-  \item{prior_p}{Hyperparameter used in inverse-gamma prior}
+  \item{prior_p}{Hyperparameter used in the inverse-gamma prior}
+  \item{prior_st}{Hyperparameter used in the inverse-gamma prior}
 }
 \details{
 1) The log bandwidths of the regressors are initialized using the normal reference rule of Silverman (1986).

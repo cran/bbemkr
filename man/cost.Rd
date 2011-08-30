@@ -7,7 +7,7 @@ Negative of log posterior associated with the bandwidths
 Calculates the negative of log posterior, using the leave-one-out cross validated samples.
 }
 \usage{
-cost(x, data_x, data_y, prior_p = 2, prior_st = 1)
+cost(x, data_x, data_y, prior_p, prior_st)
 }
 \arguments{
   \item{x}{Log of square bandwidths}
@@ -34,7 +34,7 @@ Han Lin Shang
 }
 \examples{
 x = log(nrr(data_x, FALSE)^2)
-inicost = cost(x, data_x, data_y)
+inicost = cost(x, data_x, data_y, prior_p = 2, prior_st = 1)
 }
 \keyword{methods}
 

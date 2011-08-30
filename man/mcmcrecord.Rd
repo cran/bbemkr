@@ -9,7 +9,8 @@ Estimated averaged bandwidths of the regressors and averaged variance parameter 
 \usage{
 mcmcrecord(x, inicost, mutsizp, warm = 100, M = 100, prob = 0.234, 
            num_batch = 10, step = 10, data_x, data_y, xm, 
-           prior_p = 2, prior_st = 1)
+           alpha = 0.05, prior_p = 2, prior_st = 1, 
+           mlike = c("Chib", "Geweke", "LaplaceMetropolis", "all"))  
 }
 \arguments{
   \item{x}{Log of square bandwidth}
@@ -23,13 +24,16 @@ mcmcrecord(x, inicost, mutsizp, warm = 100, M = 100, prob = 0.234,
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
   \item{xm}{Values of true regression function}
+  \item{alpha}{Quantile of the critical value in calculating Geweke's log marginal likelihood}
   \item{prior_p}{Hyperparameter of inverse-gamma prior}
   \item{prior_st}{Hyperparameter of inverse-gamma prior}
+  \item{mlike}{Method for calculating log marginal likelihood}
 }
 \details{
 Akin to the burn-in period, it determines the retained bandwidths for the regressors and the variance of 
 the error density for finite samples. It also calculates the simulation inefficient factor (SIF) value,
-R square, mean square error, and log marginal density by Newton and Raftery (1994) and Chib (1995).
+R square, mean square error, and log marginal density by Chib (1995), Geweke (1999) and 
+the Laplace Metropolis method describe in Raftery (1996).
 }
 \value{
     \item{sum_h}{Estimated parameters in an order of the bandwidths of the regressors, the variance
@@ -39,7 +43,7 @@ R square, mean square error, and log marginal density by Newton and Raftery (199
     \item{mutsizp}{Step size of random-walk Metropolis algroithm for each iteration of \code{MCMCrecord}}
     \item{cpost}{Simulation output of square bandwidths and square normal error variance obtained from MCMC}
     \item{accept}{Acceptance rate of random-walk Metropolis algorithm}
-    \item{Chib}{Log marginal likelihood of Chib (1995)}
+    \item{marginalike}{Log marginal likelihood}
     \item{R2}{R square}
     \item{MSE}{Mean square error}
 }
@@ -54,6 +58,10 @@ S. Chib (1995) Marginal likelihood from the Gibbs output, \emph{Journal of the A
 
 M. A. Newton and A. E. Raftery (1994) Approximate Bayesian inference by the weighted likelihood bootstrap (with discussion), \emph{Journal of 
 the Royal Statistical Society}, \bold{56}, 3-48.
+
+J. Geweke (1998) Using simulation methods for Bayesian econometric models: inference, development, and communication, \emph{Econometric Reviews}, \bold{18}(1), 1-73.
+
+A. E. Raftery (1996) Hypothesis testing and model selection, in Markov Chain Monte Carlo In Practice by W. R. Gilks, S. Richardson and D. J. Spiegelhalter, Chapman and Hall, London.
 }
 \author{
 Han Lin Shang
@@ -64,7 +72,7 @@ Han Lin Shang
 \examples{
 htm = proc.time()
 x = log(nrr(data_x, FALSE)^2)
-inicost = cost(x, data_x, data_y)
+inicost = cost(x, data_x, data_y, prior_p = 2, prior_st = 1)
 warmres = warmup(x, inicost, mutsizp=1.00, warm = 100, prob=0.234,
                  data_x=data_x, data_y=data_y)
 mcmcres = mcmcrecord(x = warmres$x, inicost = warmres$cost, 

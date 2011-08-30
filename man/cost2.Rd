@@ -7,7 +7,7 @@ Negative of log posterior associated with the error variance
 Calculates the negative of log posterior for the normal error variance, using the leave-one-out cross validated samples.
 }
 \usage{
-cost2(x, data_x, data_y, prior_st = 1)
+cost2(x, data_x, data_y, prior_st)
 }
 \arguments{
   \item{x}{Log of square bandwidths}
@@ -32,7 +32,7 @@ Han Lin Shang
 }
 \examples{
 x = log(nrr(data_x, FALSE)^2)
-cost2(x, data_x, data_y)
+cost2(x, data_x, data_y, prior_st = 1)
 }
 \keyword{methods}
 

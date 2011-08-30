@@ -1,3 +1,7 @@
+v 1.5
+
+1. Add the Laplace-Metropolis estimator and candidate estimator methods to compute log marginal likelihood
+
 v 1.4
 
 1. Change the prior choice of bandwidths

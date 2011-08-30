@@ -1,4 +1,5 @@
 export(
+cov_chol,
 cost,
 cost2,
 ker,
@@ -7,6 +8,7 @@ logdensity,
 loglikelihood,
 logpriors,
 logpriorh2,
+LaplaceMetropolis,
 mcmcrecord,
 warmup,
 ker,

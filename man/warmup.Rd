@@ -8,7 +8,8 @@ By minimizing the cost value, the function estimates the bandwidths of the regre
 parameter for the burn-in period
 }
 \usage{
-warmup(x, inicost, mutsizp, warm = 100, prob = 0.234, data_x, data_y)
+warmup(x, inicost, mutsizp, warm = 100, prob = 0.234, data_x, data_y,
+       prior_p = 2, prior_st = 1)
 }
 \arguments{
   \item{x}{Log of square bandwidths}
@@ -18,6 +19,8 @@ warmup(x, inicost, mutsizp, warm = 100, prob = 0.234, data_x, data_y)
   \item{prob}{Optimal covergence rate of random-walk Metropolis algorithm}
   \item{data_x}{Regressors}
   \item{data_y}{Response variable}
+  \item{prior_p}{Hyperparameter of the inverse-gamma prior}
+  \item{prior_st}{Hyperparameter of the inverse-gamma prior}
 }
 \value{
     \item{x}{Log of square bandwidths}
