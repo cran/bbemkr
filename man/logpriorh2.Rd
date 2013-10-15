@@ -24,7 +24,7 @@ Prior value
 Han Lin Shang
 }
 \seealso{
-\code{\link[bbemkr]{mcmcrecord}}, \code{\link[bbemkr]{logdensity}}, \code{\link[bbemkr]{loglikelihood}}, \code{\link[bbemkr]{logpriors}}
+\code{\link[bbemkr]{mcmcrecord_gaussian}}, \code{\link[bbemkr]{logdensity_gaussian}}, \code{\link[bbemkr]{loglikelihood_gaussian}}, \code{\link[bbemkr]{logpriors_gaussian}}
 }
 \keyword{methods}
 

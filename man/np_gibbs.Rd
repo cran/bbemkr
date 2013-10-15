@@ -34,20 +34,21 @@ np_gibbs(xh, inicost, k, mutsizp, prob, data_x, data_y, prior_p, prior_st)
    The smaller the sif value is, the better convergence of the parameters is.
 }
 \value{
-  \item{x}{}
+  \item{x}{Estimated bandwidths of the regression function}
   \item{sigma2}{Estimated variance of the normal error density}
   \item{cost}{Cost value}
   \item{accept_h}{Accept or reject. \code{accept_h=1} indicates acceptance, while \code{accept_h=0} indicates rejection.}
   \item{mutsizp}{Step size of random-walk Metropolis}
 }
 \references{
-X. Zhang and R. D. Brooks and M. L. King (2009) A Bayesian approach to bandwidth selection for multivariate kernel regression with an application to state-price density estimation, 
-\emph{Journal of Econometrics}, \bold{153}, 21-32. 
+X. Zhang and R. D. Brooks and M. L. King (2009) A Bayesian approach to bandwidth selection for multivariate kernel regression with an application to state-price density estimation, \emph{Journal of Econometrics}, \bold{153}, 21-32. 
+
+B. W. Silverman (1986) Density Estimation for Statistics and Data Analysis. Chapman and Hall, New York.
 }
 \author{
 Han Lin Shang
 }
 \seealso{
-\code{\link[bbemkr]{mcmcrecord}}, \code{\link[bbemkr]{logdensity}}, \code{\link[bbemkr]{loglikelihood}}, \code{\link[bbemkr]{logpriors}}
+\code{\link[bbemkr]{mcmcrecord_gaussian}}, \code{\link[bbemkr]{logdensity_gaussian}}, \code{\link[bbemkr]{loglikelihood_gaussian}}, \code{\link[bbemkr]{logpriors_gaussian}}
 }
 \keyword{methods}

@@ -1,5 +1,5 @@
-\name{LaplaceMetropolis}
-\alias{LaplaceMetropolis}
+\name{LaplaceMetropolis_gaussian}
+\alias{LaplaceMetropolis_gaussian}
 \title{
 Laplace-Metropolis estimator of log marginal likelihood
 }
@@ -7,12 +7,13 @@ Laplace-Metropolis estimator of log marginal likelihood
 As pointed out by Raftery (1996), the Laplace-Metropolis estimator performs well in calculating log marginal likelihood among other methods considered.  
 }
 \usage{
-LaplaceMetropolis(theta, data = NULL, prior_p, prior_st, 
+LaplaceMetropolis_gaussian(theta, data = NULL, data_y, prior_p, prior_st, 
         method = c("likelihood","L1center","median"))
 }
 \arguments{
   \item{theta}{MCMC output}
   \item{data}{Regressors}
+  \item{data_y}{Response}
   \item{prior_p}{Hyperparameter of the inverse-gamma prior}
   \item{prior_st}{Hyperparameter of the inverse-gamma prior}
   \item{method}{Computing method. \code{L1center} and \code{median} are computationally fast}
@@ -32,13 +33,15 @@ is to compute \eqn{h(\theta^(t))} for each \eqn{t=1,\dots,T} and take the value 
 Log marginal likelihood
 }
 \references{
+I. Ntzoufras (2009) Bayesian Modeling Using WinBUGS. John Wiley and Sons, Inc. New Jersey.
+
 A. E. Raftery (1996) Hypothesis testing and model selection, in Markov Chain Monte Carlo In Practice by W. R. Gilks, S. Richardson and D. J. Spiegelhalter, Chapman and Hall, London.
 }
 \author{
 Han Lin Shang
 }
 \seealso{
-\code{\link[bbemkr]{logdensity}}, \code{\link[bbemkr]{logpriors}}, \code{\link[bbemkr]{loglikelihood}}
+\code{\link[bbemkr]{logdensity_gaussian}}, \code{\link[bbemkr]{logpriors_gaussian}}, \code{\link[bbemkr]{loglikelihood_gaussian}}, \code{\link[bbemkr]{mcmcrecord_gaussian}}
 }
 \keyword{methods}
 

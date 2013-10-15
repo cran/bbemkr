@@ -23,12 +23,14 @@ The difference among kernel functions is minor, but the influence of bandwidths 
 Kernel value
 }
 \references{
+J. Fan and I. Gijbels (1996) Local Polynomial Modelling and Its Application. Chapman and Hall, London.
+
 Q. Li and J. Racine (2007) Nonparametric Econometrics: Theory and Practice. Princeton University Press, New Jersey.
 }
 \author{
 Han Lin Shang
 }
 \seealso{
-\code{\link{np_gibbs}}
+\code{\link[bbemkr]{np_gibbs}}, \code{\link[bbemkr]{gibbs_admkr_nw}}, \code{\link[bbemkr]{gibbs_admkr_erro}}
 }
 \keyword{methods}

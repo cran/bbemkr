@@ -8,12 +8,12 @@ To determine the goodness of fit, we calculate the R square value for leave-one-
 To determine the googness of approximating regression function, we calculate the mean square error for leave-one-out cross validated regressors.
 }
 \usage{
-kern(h, hn, data_x, xm)
+kern(h, data_x, data_y, xm)
 }
 \arguments{
   \item{h}{Bandwidth chosen after MCMC}
-  \item{hn}{Optimal covergence rate}
   \item{data_x}{Regressors}
+  \item{data_y}{Response}
   \item{xm}{Values of true regression function}
 }
 \value{

@@ -1,5 +1,5 @@
-\name{cost}
-\alias{cost}
+\name{cost_gaussian}
+\alias{cost_gaussian}
 \title{
 Negative of log posterior associated with the bandwidths
 }
@@ -7,7 +7,7 @@ Negative of log posterior associated with the bandwidths
 Calculates the negative of log posterior, using the leave-one-out cross validated samples.
 }
 \usage{
-cost(x, data_x, data_y, prior_p, prior_st)
+cost_gaussian(x, data_x, data_y, prior_p, prior_st)
 }
 \arguments{
   \item{x}{Log of square bandwidths}
@@ -30,11 +30,11 @@ X. Zhang and R.D. Brooks and M.L. King (2009), A Bayesian approach to bandwidth 
 Han Lin Shang
 }
 \seealso{
-\code{\link[bbemkr]{np_gibbs}}, \code{\link[bbemkr]{cost2}}
+\code{\link[bbemkr]{np_gibbs}}, \code{\link[bbemkr]{cost2_gaussian}}
 }
 \examples{
 x = log(nrr(data_x, FALSE)^2)
-inicost = cost(x, data_x, data_y, prior_p = 2, prior_st = 1)
+inicost = cost_gaussian(x, data_x = data_x, data_y = data_ynorm, prior_p = 2, prior_st = 1)
 }
 \keyword{methods}
 

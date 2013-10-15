@@ -1,3 +1,10 @@
+v 2.0
+
+1. Change the email address
+2. Update the R functions
+3. Add the Bayesian bandwidth estimation method for the unknown error density, estimated by the kernel-form error density
+4. Add _gaussian for the Gaussian error density
+
 v 1.5
 
 1. Add the Laplace-Metropolis estimator and candidate estimator methods to compute log marginal likelihood

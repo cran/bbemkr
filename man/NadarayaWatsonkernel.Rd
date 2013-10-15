@@ -24,9 +24,13 @@ where \eqn{K} is a kernel function with a bandwidth \code{h}.
  \item{mh}{Density values corresponding to the set of gridpoints.}
 }
 \references{
-E. A. Nadaraya (1964) On estimating regression, Theory of probability and its applications, 9(1), 141-142.
+M. Rosenblatt (1956) Remarks on some nonparametric estimates of a density function, \emph{The Annals of Mathematical Statistics}, \bold{27}(3), 832-837.
 
-G. S. Watson (1964) Smooth regression analysis, Sankhya: The Indian Journal of Statistics (Series A), 26(4), 359-372.
+E. Parzen (1962) On estimation of a probability density function and mode, \emph{The Annals of Mathematical Statistics}, \bold{33}(3), 1065-1076.
+
+E. A. Nadaraya (1964) On estimating regression, \emph{Theory of probability and its applications}, \bold{9}(1), 141-142.
+
+G. S. Watson (1964) Smooth regression analysis, \emph{Sankhya: The Indian Journal of Statistics (Series A)}, \bold{26}(4), 359-372.
 }
 \author{
 Han Lin Shang
@@ -34,6 +38,6 @@ Han Lin Shang
 \examples{
 x = rnorm(100)
 y = rnorm(100)
-NadarayaWatsonkernel(x, y, h = 2, gridpoint = seq(-3,3,length.out = 100))
+NadarayaWatsonkernel(x, y, h = 2, gridpoint = seq(-3, 3, length.out = 100))
 }
 \keyword{method}

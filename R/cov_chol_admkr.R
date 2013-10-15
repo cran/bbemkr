@@ -1,11 +1,10 @@
-cov_chol <- function(xpost, data_x, data_y, alpha, prior_p, prior_st)
+cov_chol_admkr = function(xpost, alpha, data_x, data_y)
 {
     dm = ncol(xpost)
     M = nrow(xpost)
     ave = temv = vector(,dm)
     b = cov = matrix(,dm,dm)
     fhat = tail = vector(,M)
-
     ave = colMeans(xpost)
     for(i in 1:dm)
     {
@@ -26,6 +25,8 @@ cov_chol <- function(xpost, data_x, data_y, alpha, prior_p, prior_st)
             cov[i,j] = cov[j,i]
         }
     }
+    # cholesky decomposition
+    
     b = solve(chol(cov))
     det = det(b)
     fmean = iave = 0
@@ -46,11 +47,9 @@ cov_chol <- function(xpost, data_x, data_y, alpha, prior_p, prior_st)
         {
             tem = tem + temv[j]^2
         }
-        if(tem < qchisq(1-alpha, dm))
+        if(tem < qchisq(1 - alpha, dm))
         {
-            fhat[i] = -0.5 * dm * log(2.0 * pi) + log(det) - 0.5 * tem - log(1.0 - alpha) -
-                        margin_prior_gaussian(xpost[i,], data_x = data_x, prior_p = prior_p, prior_st = prior_st) -
-                        margin_like_gaussian(xpost[i,], data_x = data_x, data_y = data_y)
+            fhat[i] = -0.5 * dm * log(2.0*pi) + log(det) - 0.5 * tem - log(1-alpha) - margin_prior_admkr(xpost[i,], data_x = data_x) - margin_like_admkr(xpost[i,], data_x = data_x, data_y = data_y)
             tail[i] = 1
         }
         else
@@ -68,7 +67,19 @@ cov_chol <- function(xpost, data_x, data_y, alpha, prior_p, prior_st)
         tem = tem + exp(tail[i] * (fhat[i] - fmean)) * tail[i]
     }
     tem = tem/M
-    tem = log(1.0/tem) - fmean
+    tem = log(1/tem) - fmean
     return(tem)
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
