@@ -1,6 +1,6 @@
-48311eb47236c6c1eeaac88445b55445 *ChangeLog
-aa3e17f4c5b483f96161dcf72c6a8dd0 *DESCRIPTION
-2c47dd32155974cbe559dc3b77bc7ffc *NAMESPACE
+5260f8924045cfcaeca9c6c37fe7ddf3 *ChangeLog
+09363270d2adc8a7e5d0bc944bb7504d *DESCRIPTION
+6a76fa64851fefb546b9cb0be9593d32 *NAMESPACE
 6377d7fac48cdd934636f75c9bbdc7e0 *R/LaplaceMetropolis_admkr.R
 ca3627d8d7f308a5497880fd20f64b60 *R/LaplaceMetropolis_gaussian.R
 f619331ce9e079b7a8bc0f014ea35c5c *R/NadarayaWatsonkernel.R
@@ -31,10 +31,13 @@ c50ca8fa0ce0fa89aa24b43aa7f3f3e2 *R/mcmcrecord_admkr.R
 4c8293f20e789881683282d2e5e7e18f *R/residu.R
 d86472dde00eb8d69371c817a9716759 *R/warmup_admkr.R
 72ba88b2eb8d09522f761f0d720a73a7 *R/warmup_gaussian.R
+765cf9ec9fb9b7b1eb6e401af533ae77 *build/vignette.rds
 4ce207a3e449da6a9b49506003d3222d *data/data_x.rda
 204a671abb8791f843c25cb286c96ca0 *data/data_ynorm.rda
 1e26e94d0f0a05ed4a62a9196a194d51 *data/data_yt.rda
 c67fab820f3beda228a57294b6dabbf6 *data/xm.rda
+e74d228b7c985743484b230f699bc844 *inst/doc/bbemkr.Rnw
+a83dc87d0812501162506a4f3f0874a6 *inst/doc/bbemkr.pdf
 ffe41d65a955a22c7bca8f53c5a4b88e *man/LaplaceMetropolis_admkr.Rd
 0df711eab3a4869bca28884d378c2234 *man/LaplaceMetropolis_gaussian.Rd
 612336d5a618a28558dcd823f69166ad *man/NadarayaWatsonkernel.Rd
@@ -65,3 +68,5 @@ ac0cdedebdea9452478c24db160187f5 *man/data_yt.Rd
 c7e1d95da56efff807588c7fb232022d *man/warmup_admkr.Rd
 ff3ac8ce0ce8d381562bfb9938cfaf39 *man/warmup_gaussian.Rd
 1b1ccfc303eeed4f1332299089aaa690 *man/xm.Rd
+e74d228b7c985743484b230f699bc844 *vignettes/bbemkr.Rnw
+f090e140d32cb61da4a77f016d3d6358 *vignettes/bbemkr.bib

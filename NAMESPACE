@@ -25,3 +25,5 @@ LaplaceMetropolis_admkr,
 cov_chol_admkr,
 cost_admkr
 )
+
+import(MASS)

@@ -1,0 +1,301 @@
+%\VignetteIndexEntry{The bbemkr Package}
+%\VignetteDepends{splines}
+%\VignetteKeywords{bandwidth selection, Bayesian model selection, Nadaraya-Watson estimator, kernel-form error density, marginal likelihood, adaptive random-walk Metropolis, simulation inefficiency factor}
+%\VignettePackage{bbemkr}
+
+\documentclass[nojss]{jss}
+\usepackage{amsmath,graphics,amsfonts,bbm,enumitem,microtype,alltt,verbatim,subfig,bm,animate,tikz}
+\usepackage[utf8]{inputenc} 
+\usepackage[figuresright]{rotating}
+
+\newcommand{\field}[1]{\mathbb{#1}}
+  \newcommand{\R}{$\field{R}$}
+  \usetikzlibrary[decorations.shapes]
+  \usetikzlibrary[petri]
+  
+  %% Change the default page sizes.
+  
+  \setlength{\topmargin}{-0.25in}
+  \setlength{\textheight}{8.5in}
+  \setlength{\oddsidemargin}{.0in}
+  \setlength{\evensidemargin}{.0in}
+  \setlength{\textwidth}{6.5in}
+  \setlength{\footskip}{.5in}
+  
+  \newenvironment{smallexample}{\begin{alltt}\small}{\end{alltt}}
+  \newenvironment{smallverbatim}{\small\verbatim}{\endverbatim}
+  \graphicspath{{plots/}}
+  
+  %% need no \usepackage{Sweave.sty}
+  
+  \author{Han Lin Shang\\ Australian National University}
+  
+  \title{The \pkg{bbemkr} Package}
+  
+  \Plainauthor{Han Lin Shang}
+  
+  \Plaintitle{The \pkg{bbefkr} Package}
+  
+  \Abstract{
+    
+    The multivariate kernel regression provides a flexible way to estimate possible non-linear relationship between a set of predictors and scalar-valued response. As with any type of kernel regression, it requires an optimal selection of smoothing parameter, called bandwidth. In the literature of multivariate kernel regression, bandwidth parameter is often selected by least square cross validation. In this article, we present a Bayesian bandwidth estimation method that uses the information about error density to help with the optimal selection of bandwidths in the regression function. We first describe the proposed Bayesian method in a multivariate kernel regression. Illustrated by a series of simulation studies, the Bayesian method is then implemented using a readily-available \R \ add-on package.
+    
+  }
+  \Keywords{bandwidth selection, Bayesian model selection, Nadaraya-Watson estimator, kernel-form error density, marginal likelihood, adaptive random-walk Metropolis, simulation inefficiency factor}
+  
+  \Plainkeywords{bandwidth selection, Bayesian model selection, Nadaraya-Watson estimator, kernel-form error density, marginal likelihood, adaptive random-walk Metropolis, simulation inefficiency factor}
+  
+  \Address{Han Lin Shang\\
+           Research School of Finance, Actuarial Studies and          
+           Applied Statistics \\
+           Australian National University \\
+           Canberra ACT 0200, Australia\\
+           E-mail: \email{hanlin.shang@anu.edu.au}\\
+           URL: \url{https://sites.google.com/site/hanlinshangswebsite/} \\
+  }
+  
+  \begin{document}
+  \SweaveOpts{concordance=FALSE}
+  
+  \section{Introduction}
+  
+  The aim of this article is to describe the \R \ functions that are readily-available in the \pkg{bbemkr} package \citep{SZ13} for estimating bandwidth parameters in a multivariate nonparametric regression. In the literature of nonparametric regression, many developments focus on the estimation of nonparametric regression function. Some commonly used nonparametric regression estimators include: Nadaraya-Watson (NW) estimator \citep{BA97}, local linear estimator \citep{Simonoff96}, $k$-nearest neighbour estimator \citep{WJ95}, and many others. Because of simplicity and mathematical elegance, we consider the NW estimator in this paper.
+  
+  In all of the aforementioned nonparametric estimators, the estimation accuracy of the conditional mean crucially depend on the optimal selection of bandwidths. Commonly, the optimal bandwidths are selected by the least-squares cross validation. Least-squares cross validation aims to minimise $L_2$ loss function and has the appealing feature that no estimation of error variance is required. However, since residuals affect the estimation accuracy of regression function, least-squares cross validation may select a sub-optimal bandwidth. This in turn leads to inferior estimation accuracy of regression functions. As an alternative, we present a Bayesian bandwidth estimation method that simultaneously estimates the optimal bandwidths in the regression function and kernel-form error density by minimising the generalised loss function. 
+  
+  This article aims to draw close connection between the accurate estimations of error density and regression function. The estimation of error density is important for assessing the goodness of fit of a specific distribution \citep[see for examples,][]{AV01, CS08}; the estimation of error density is also useful to test the symmetry of the residual distribution \citep[see for examples,][]{AL97, ND07}; the estimation of error density is important to statistical inference, prediction and model validation \citep[see for examples,][]{Efromovich05, MN10}; and the estimation of error density is also useful for the estimation of the density of the response variable \citep[see for an example,][]{EJ12}. Therefore, being able to estimate the error density is as important as being able to estimate the regression function.
+  
+  Before introducing the Bayesian bandwidth estimation method, we first define the problem more precisely. Let $\bm{y} = (y_1,y_2,\dots,y_n)^{\top}$ be a vector of scalar responses, and $\bm{x}_i = (x_{1i},\dots,x_{pi})^{\top}$ for $i=1,\dots,n$ be $p$-dimensional real-valued predictors, where $^{\top}$ represents matrix transpose. We consider the nonparametric regression model given by
+  \begin{equation}
+  y_i = m(\bm{x}_i) + \varepsilon_i, \qquad i=1,2,\dots,n,
+  \end{equation}
+  where $m(\bm{x}) = \text{E}(y|\bm{x})$ is the conditional mean, and $\varepsilon_1,\varepsilon_2,\dots,\varepsilon_n$ are independent and identically distributed (iid) errors with an unknown probability density function, denoted as $f(\varepsilon)$. We assume that there is no correlation between the covariates in the regression function and errors, that is
+  \begin{equation*}
+  \text{E}(\varepsilon_i|\bm{x}_i) = 0.
+  \end{equation*}
+  
+  The flexibility of the nonparametric regression comes from the fact that the unknown regression function $m(\cdot)$ does not need to have a specific parametric functional form. With some smoothness properties, $m(\cdot)$ can be estimated by the kernel estimator, such as the Nadaraya-Watson estimator given by
+  \begin{equation*}
+  \widehat{m}(\bm{x};\bm{h}) = \frac{\sum^n_{i=1}K_{\bm{h}}(\bm{x}-\bm{x}_i)y_i}{\sum^n_{i=1}K_{\bm{h}}(\bm{x}-\bm{x}_i)},
+  \end{equation*}
+  where $\bm{h}=(h_1,h_2,\dots,h_p)^{\top}$ represents a vector of bandwidths.
+  
+  This article proceeds as follows. The Bayesian bandwidth estimation method is first described and its 
+  estimation accuracy is then compared based on the idea of marginal likelihood. Through a series of simulation studies, the sampling algorithm is demonstrated using the \R \ functions in the \pkg{bbemkr} package. Conclusions will then be presented. 
+  
+  
+  \section{Bayesian bandwidth estimation}
+  
+  \subsection{Estimation of error density}
+  
+  The unknown error density $f(\varepsilon)$ can be approximated by a location-mixture of Gaussian densities given by
+  \begin{equation}
+  f(\varepsilon;b) = \frac{1}{n}\sum^n_{j=1}\frac{1}{b}\phi\left(\frac{\varepsilon - \varepsilon_j}{b}\right),\label{eq:reflect}
+  \end{equation}
+  where $\phi(\cdot)$ is the probability density function of the standard Gaussian distribution and the component Gaussian densities have means at $\varepsilon_j$, for $j=1,2,\dots,n$ and a common standard deviation $b$. Equation~\eqref{eq:reflect} is simply a univariate kernel density estimator with Gaussian kernel and bandwidth $b$. Although error $\varepsilon_j$ is unknown, it can be estimated by the NW estimator. Thus, the density of $y_i$ is approximated by the estimated error density $\widehat{f}(\varepsilon;b)$, expressed as
+  \begin{equation*}
+  \widehat{f}(\varepsilon;b) = \frac{1}{n}\sum^n_{j=1}\frac{1}{b}\phi\left(\frac{\varepsilon-\widehat{\varepsilon}_j}{b}\right),
+  \end{equation*}
+  where $b$ represents residual bandwidth. In order to avoid the possible selection of $b=0$, a leave-one-out version of the kernel likelihood is often used, given by
+  \begin{equation*}
+  \widehat{f}(\widehat{\varepsilon}_i;b) = \frac{1}{n-1}\sum^n_{\substack {j=1\\j\neq i}}\frac{1}{b}\phi\left(\frac{\widehat{\varepsilon}_i-\widehat{\varepsilon}_j}{b}\right),
+  \end{equation*}
+  where $\widehat{\varepsilon}_i = y_i - \widehat{m}(\bm{x}_i;h)$ is the $i$th residual for $i=1,2,\dots,n$, in the multivariate nonparametric regression. Given $(h,b)$ and iid assumption of the errors, the leave-one-out version of the kernel likelihood of $\bm{y} = (y_1,y_2,\dots,y_n)^{\top}$ can be approximated by
+  \begin{equation*}
+  \widehat{L}(\bm{y}|h,b) =\prod^n_{i=1}\Bigg[\frac{1}{n-1}\sum^n_{\substack {j=1\\j\neq i}}\frac{1}{b}\phi\left(\frac{\widehat{\varepsilon}_i-\widehat{\varepsilon}_j}{b}\right)\Bigg].
+  \end{equation*}
+  
+  \subsection{Prior density}
+  
+  We now discuss the issue of prior density for the bandwidths. Let $\pi(h^2)$ and $\pi(b^2)$ be the independent prior of squared bandwidths $h$ and $b$. Since $h^2$ and $b^2$ play the role of variance parameters in the Gaussian densities, we assume that the priors of $h^2$ and $b^2$ are inverse Gamma density, denoted by $\text{IG}(\alpha_h,\beta_h)$ and $\text{IG}(\alpha_b,\beta_b)$, respectively. Thus, the prior densities of $h^2$ and $b^2$ are given by
+  \begin{align*}
+  \pi(h^2) &= \frac{(\beta_h)^{\alpha_h}}{\Gamma(\alpha_h)}\left(\frac{1}{h^2}\right)^{\alpha_h+1}\exp\left(-\frac{\beta_h}{h^2}\right), \\
+  \pi(b^2) &= \frac{(\beta_b)^{\alpha_b}}{\Gamma(\alpha_b)}\left(\frac{1}{b^2}\right)^{\alpha_b+1}\exp\left(-\frac{\beta_b}{b^2}\right),
+  \end{align*}
+  where $\alpha_h=\alpha_b=1.0$ and $\beta_h=\beta_b=0.05$ are hyper-parameters. Sensitivity results studied in \cite{ZKS11} show that the choices of hyper-parameters and inverse Gamma densities do not influence the estimation of posterior density.
+  
+  \subsection{Posterior density}
+  
+  Let $\bm{\theta}=(h^2,b^2)$ be the parameter vector and $\bm{y}=(y_1,y_2,\dots,y_n)^{\top}$ be the data. According to the Bayes theorem, the posterior of $\bm{\theta}$ is written by
+  \begin{equation}
+  \pi(\bm{\theta}|\bm{y}) = \frac{\widehat{L}(\bm{y}|\bm{\theta})}{L(\bm{y})}, \label{eq:posterior}
+  \end{equation}
+  where $\widehat{L}(\bm{y}|\bm{\theta})$ is the approximated likelihood function with squared bandwidths and $L(\bm{y})$ is the marginal likelihood, which can be expressed as
+  \begin{equation*}
+  \int \widehat{L}(\bm{y}|\bm{\theta})\pi(\bm{\theta})d\bm{\theta}.
+  \end{equation*}
+  In practice, the posterior in~\eqref{eq:posterior} can be approximated by (up to a normalising constant):
+    \begin{equation*}
+  \pi(\bm{\theta}|\bm{y})\propto \widehat{L}(\bm{y}|\bm{\theta})\pi(\bm{\theta}).
+  \end{equation*} 
+  
+  We use the adaptive random-walk Metropolis algorithm to sample $\bm{\theta}$ \citep[see][for details]{GFS10}. In order to assess the convergence of the Markov chain Monte Carlo (MCMC) algorithm, we use the notion of simulation inefficiency factor \citep{MY00}. This is a measure of autocorrelation among iterations and provides an indication of how many iterations are required to have the iid draws from the posterior distributions. It is noteworthy that a full range of diagnostic tools in the coda package \citep{PBC+06} can also be applied to check the convergence of MCMC.
+  
+  \subsection{Adaptive estimation of error density}
+  
+  In kernel density estimator, it has been noted that the leave-one-out estimator may be heavily affected by extreme observations in the data sample \citep[see for example,][]{Bowman84}. Because of the use of a global bandwidth, the leave-one-out kernel error density estimator is likely to overestimate the tails of the density. To overcome this deficiency, it is possible to use localised bandwidths by assigning small bandwidths to the residuals in the high density region and large bandwidths to the residuals in the low density region. The localised error density estimator can be given by
+  \begin{equation*}
+  \widehat{f}(\widehat{\varepsilon}_i;b,\tau_{\varepsilon}) = \frac{1}{n-1}\sum^n_{\substack {j=1\\ j \neq i}}\frac{1}{b(1+\tau_{\varepsilon}|\widehat{\varepsilon}_j|)}\phi\left(\frac{\widehat{\varepsilon}_i-\widehat{\varepsilon}_j}{b(1+\tau_{\varepsilon}|\widehat{\varepsilon}_j|)}\right),
+  \end{equation*}
+  where $b(1+\tau_{\varepsilon}|\widehat{\varepsilon}_j|)$ is the bandwidth assigned to residual $\widehat{\varepsilon}_j$ and the vector of parameter is now $(h,b,\tau_{\varepsilon})$. Again, the adaptive random-walk Metropolis algorithm can be used to sample these parameters, where the prior density of $\tau_{\varepsilon}\sim U(0,1)$.
+  
+  \subsection{Sampling algorithm}
+  
+  We use the adaptive random-walk Metropolis algorithm of \cite{GFS10} to sample $(h^2, b^2)$, the sampling algorithm is briefly described below. For simplicity of notation, I shall let $\bm{\theta} = (h^2, b^2)$ to represent a vector of squared bandwidths.
+  \begin{enumerate}
+  {\setlength\itemindent{10pt} \item [Step 0] Specify a Gaussian proposal distribution, with an arbitrary starting point $h^2$ and $b^2$. The starting points can be drawn from a uniform distribution $U(0,1)$.}
+  {\setlength\itemindent{10pt} \item [Step 1] At the $k$th iteration, the current state $b_{(k)}^2$ is updated as $b_{(k)}^2 = b_{(k-1)}^2+\tau_{(k-1)}\varepsilon$, where $\varepsilon\sim N(0,1)$, and $\tau_{(k-1)}$ is an adaptive tuning parameter with an arbitrary initial value $\tau_{(0)}$.}
+  {\setlength\itemindent{10pt} \item [Step 2] The updated $b_{(k)}^2$ is accepted with probability $\min\left\{\frac{\pi\left(b^2_{(k)}, h^2_{(k-1)}|\bm{y}\right)}{\pi\left(b_{(k-1)}^2, h_{(k-1)}^2|\bm{y}\right)},1\right\}$, where $\pi$ represents the posterior density.}
+  {\setlength\itemindent{10pt} \item [Step 3] By using the stochastic search algorithm of \cite{RM51}, the tuning parameter is
+  \[ \tau_{(k)} = \left\{ \begin{array}{ll}
+                         \tau_{(k-1)}+c(1-p)/k & \mbox{\qquad if $b_{(k)}^2$ is accepted};\\
+                         \tau_{(k-1)}-cp/k & \mbox{\qquad if $b_{(k)}^2$ is rejected}.\end{array} \right. \]
+  where $c=\frac{\tau_{(k-1)}}{p(1-p)}$ is a varying constant, and $p=0.44$ is the optimal acceptance probability for drawing one parameter while $p=0.234$ is the optimal acceptance probability for drawing multiple parameters \citep{RR09}.}
+  {\setlength\itemindent{10pt} \item [Step 4] Repeat Steps 1-3 for $h_{(k)}^2$, conditional on $b_{(k)}^2$ and $\bm{y}$.}
+  {\setlength\itemindent{10pt} \item [Step 5] Repeat Steps 1-4 for $M+N$ times, discard $\left(h_{(0)}^2, b_{(0)}^2\right), \left(h_{(1)}^2, b_{(1)}^2\right),\dots,\left(h_{(M)}^2, b_{(M)}^2\right)$ for burn-in in order to let the effects of the transients wear off, estimate $\widehat{h}^2 = \frac{\sum^{M+N}_{k=M+1}h_{(k)}^2}{N}$ and $\widehat{b}^2 = \frac{\sum^{M+N}_{k=M+1}b_{(k)}^2}{N}$. The burn-in period is taken to be $M=1,000$ iterations, and the number of iterations after burn-in period is $N=10,000$ iterations. The analytical form of the kernel-form error density can be derived based on $h^2$ and $b^2$. It is noteworthy that a similar error density result can be obtained by taking the average of the kernel-form error densities computed at all iterations, but at the cost of much slower computational speed.}
+  \end{enumerate}
+                                                                                                                                                                 
+  \subsection{Bayesian model selection}
+  
+  How could the Bayesian model selection be useful in multivariate kernel regression? The answer lies in the comparison of different error-density assumptions. Under the normal and student-t error densities, marginal likelihood can be used to compare the kernel-form error density and assumed Gaussian error density.
+  
+  In Bayesian inference, model selection or averaging is calculated through the Bayes factor of the model of interest against a competing model. The Bayes factor reflects a summary of evidence provided by the data supporting the model as opposed to its competing model. The Bayes factor is defined as the expectation of likelihood with respect to the prior of parameters. It is seldom computed as the integral of the product of the likelihood and prior of parameters, but instead is often computed numerically \citep{GD94,NR94,Chib95,KR95,Geweke99}.
+  
+  \cite{Chib95} showed that the marginal likelihood under error-density assumption $A$ is expressed as
+  \begin{equation*}
+  L_{\text{A}}(\bm{y}) = \frac{\widehat{L}_{\text{A}}(\bm{y}|\bm{\theta})\pi_{\text{A}}(\bm{\theta})}{\pi_{\text{A}}(\bm{\theta}|\bm{y})},
+  \end{equation*}
+  where $\widehat{L}_{\text{A}}(\bm{y}|\bm{\theta})$, $\pi_{\text{A}}(\bm{\theta})$ and $\pi_{\text{A}}(\bm{\theta}|\bm{y})$ denote the kernel likelihood, prior and posterior under error-density assumption A, respectively. $L_{\text{A}}(\bm{y})$ is often computed at the posterior estimate of $\bm{\theta}$. The numerator has a closed form and can be computed analytically, but the denominator can be approximated by the MCMC posterior draws. However, for relatively small number of parameters, the denominator can be estimated by its kernel density estimator based on the simulated chain of $\bm{\theta}$ through a posterior sampler.
+  
+  The Bayes factor of error-density assumption A against error-density assumption B is defined as
+  \begin{equation*}
+  \frac{\text{L}_{\text{A}}(\bm{y})}{\text{L}_{\text{B}}(\bm{y})}.
+  \end{equation*}
+  Based on the Bayes factor, we can determine which model is more superior than a competing model with different levels of evidence \citep[see][for more details]{KR95}. 
+  
+  \section{Simulation study}
+  
+  Consider the relationship between $y$ and $\bm{x} = (x_1,x_2,x_3)^{\top}$ given by
+  \begin{equation}
+  y_i = \sin (2\pi x_{1,i}) + 4(1-x_{2,i})(1+x_{2,i}) + \frac{2x_{3,i}}{1+0.8x_{3,i}^2}+\varepsilon_i,\label{eq:nonpara}
+  \end{equation}
+  for $i=1,2,\dots,n$. A sample of 100 observations was generated by drawing $x_{1,i}, x_{2,i}$ and $x_{3,i}$ independently from $U(0,1)$, and $\varepsilon_i$ from either a normal distribution $N\left(0, 0.9^2\right)$ or the student distribution with four degrees of freedom $t_4$. 
+  
+  The smooth and non-linear relationship between $y_i$ and $\bm{x}_i$ can be modelled by the nonparametric regression, where bandwidths are estimated through the Bayesian sampling algorithm under the two error-density assumptions. When the true error density is Gaussian, we find that the Bayesian sampling algorithm with the Gaussian error density performs better than the one with kernel-form error density, as measured by the marginal likelihood using Geweke's method.  This can be obtained as follows:
+\begin{Verbatim}[fontsize=\small]
+  # install and load the R package
+  R> install.packages("bbemkr")
+  R> require(bbemkr)
+  
+  # set random seed
+  R> set.seed(123456)
+  
+  # initial bandwidths obtained from the normal reference rule
+  
+  x = log(nrr(data_x = data_x, logband = FALSE)^2)
+  
+  # Initial cost function
+  
+  inicost = cost_gaussian(x = x, data_x = data_x, data_y = data_ynorm, prior_p = 2, prior_st = 1)
+  
+  # Burn-in period (error density is Gaussian)
+  
+  warmup_res = warmup_gaussian(x = x, inicost = inicost, mutsizp = 1.0, data_x = data_x, 
+                               data_y = data_ynorm, warm = 1000)
+  
+  # MCMC recording period (error density is Gaussian)
+  
+  mcmc_res = mcmcrecord_gaussian(x = warmup_res$x, inicost = warmup_res$cost, 
+                                 mutsizp = warmup_res$mutsizplast, data_x = data_x, 
+                                 data_y = data_ynorm, xm = xm, warm = 1000, M = 1000)
+  
+  # initial bandwidths obtained from the normal reference rule
+  
+  x = c(log(nrr(data_x = data_x, logband = FALSE)^2),2)
+  
+  # Initial cost function
+  
+  nicost = cost_admkr(x = x, data_x = data_x, data_y = data_ynorm)
+  
+  # Burn-in period (error density is the kernel-form)
+  
+  warmup_res_admkr = warmup_admkr(x = x, inicost = inicost, mutsizp = 1.0, errorsizp = 1.0, 
+                                  data_x = data_x, data_y = data_ynorm, warm=1000)
+  
+  # MCMC recording period (error density is the kernel-form)
+  
+  mcmc_res_admkr = mcmcrecord_admkr(x = warmup_res_admkr$x, inicost = warmup_res_admkr$cost, 
+                    mutsizp = warmup_res_admkr$mutsizp, errorsizp = warmup_res_admkr$errorsizp,
+                    data_x = data_x, data_y = data_ynorm, xm = xm, warm = 1000, M = 1000)
+
+  # marginal likelihoods for both error-density assumptions
+  
+  round(mcmc_res$marginalike, 2)        
+  round(mcmc_res_admkr$marginalike, 2)  
+  \end{Verbatim}
+  
+  When the error density is $t_4$, we find that the Bayesian sampling algorithm with the kernel-from error density performs better than the one with Gaussian error density, as measured by the marginal likelihoods using Chib's and Geweke's methods. This can be obtained as follows:
+\begin{Verbatim}[fontsize=\small]
+  # initial bandwidths obtained from the normal reference rule
+  
+  x = log(nrr(data_x = data_x, logband = FALSE)^2)
+  
+  # Initial cost function
+  
+  inicost = cost_gaussian(x = x, data_x = data_x, data_y = data_yt, prior_p = 2, prior_st = 1)
+
+  # set random seed
+  
+  set.seed(123456)
+  
+  # Burn-in period (error density is Gaussian)
+  
+  warmup_res = warmup_gaussian(x = x, inicost = inicost, mutsizp = 1.0, data_x = data_x, 
+                               data_y = data_yt, warm = 1000)
+    
+  # MCMC recording period (error density is Gaussian)
+  
+  mcmc_res = mcmcrecord_gaussian(x = warmup_res$x, inicost = warmup_res$cost, 			
+                        mutsizp = warmup_res$mutsizplast, data_x = data_x, 
+                        data_y = data_yt, xm = xm, warm = 1000, M = 1000)
+  
+  # initial bandwidths obtained from the normal reference rule
+  
+  x = c(log(nrr(data_x = data_x, logband = FALSE)^2), 2)
+    
+  # Initial cost function
+  
+  inicost = cost_admkr(x = x, data_x = data_x, data_y = data_yt)
+    
+  # set random seed
+  
+  set.seed(123456)
+  
+  # Burn-in period (error density is the kernel-form)
+  
+  warmup_res_admkr = warmup_admkr(x = x, inicost = inicost, mutsizp = 1.0, errorsizp = 1.0, 
+                                  data_x = data_x, data_y = data_yt, warm = 1000)
+  
+  # MCMC recording period (error density is the kernel-form)
+  
+  mcmc_res_admkr = mcmcrecord_admkr(x = warmup_res_admkr$x, inicost = warmup_res_admkr$cost, 
+                          mutsizp = warmup_res_admkr$mutsizp, 
+                          errorsizp = warmup_res_admkr$errorsizp,
+                          data_x = data_x, data_y = data_yt, xm = xm, warm = 1000, M = 1000)
+                          
+  # marginal likelihoods for both error-density assumptions
+  
+  round(mcmc_res$marginalike, 2)        
+  round(mcmc_res_admkr$marginalike, 2)  
+  \end{Verbatim}
+  
+  \section{Conclusion}
+  
+  This article describes the Bayesian bandwidth estimation method in a multivariate nonparametric regression, using the \R \ functions that are readily-available in the \pkg{bbemkr} package. The method allows us to simultaneously estimate optimal bandwidths in the regression function approximated by the NW estimator and kernel-form error density. Illustrated by a series of simulation studies, we found that when the error density is correctly specified, the Bayesian method with kernel-form error density is sub-optimal; when the error density is wrongly specified, the proposed method performs the best. In practice, given the error density is often unknown, the proposed method provides a robust approach towards bandwidth estimation.
+  
+  In future, the Bayesian method described may be extended to other nonparametric estimators for estimating regression function, such as local linear estimator \citep{Simonoff96}.
+  
+  
+\bibliography{bbemkr}
+
+\end{document}
